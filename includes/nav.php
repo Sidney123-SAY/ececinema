@@ -19,5 +19,5 @@
       <li><a href="/radiation.html">Radiation</a></li>
     <?php } ?>
     <li><a href="logout.php">Déconnexion</a></li>
-  </ul>
+    </ul>
 </nav>
