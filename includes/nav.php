@@ -130,7 +130,7 @@
         </ul>
     </nav>
     <div class="nav-icons">
-        <a href="recherche.html" class="icon">🔍</a>
+        <a href="recherche.php" class="icon">🔍</a>
         <a href="notifications.php" class="icon">🔔<span class="badge">2</span></a>
         <a href="profil.php" class="icon">👤</a>
     </div>
