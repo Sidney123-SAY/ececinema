@@ -3,7 +3,7 @@ session_start();
 include '../configdb.php';
 
 if ($_SESSION['statut'] !== 'admin') {
-    header("Location: ../login.php");
+    header("Location: login.php");
     exit;
 }
 
