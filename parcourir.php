@@ -9,13 +9,17 @@ include 'configdb.php';
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Parcourir les films - ECE CINÉ</title>
+  <link rel="stylesheet" href="assets/css/style.css">
   <style>
-    body {
+    html, body {
+      height: 100%;
       margin: 0;
       padding: 0;
       background-color: #000;
       color: white;
       font-family: 'Arial', sans-serif;
+      display: flex;
+      flex-direction: column;
     }
 
     h2 {
@@ -24,10 +28,12 @@ include 'configdb.php';
       margin-top: 30px;
     }
 
-         display: grid;
+    .film-grid {
+      display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 20px;
       padding: 30px;
+      flex: 1;
     }
 
     .film-card {
@@ -54,6 +60,10 @@ include 'configdb.php';
     .film-card h3 {
       color: #00ff88;
       margin: 10px 0 5px;
+      font-size: 16px;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      white-space: normal;
     }
 
     .film-card p {
@@ -62,7 +72,7 @@ include 'configdb.php';
       margin-bottom: 10px;
     }
 
-    .film-card form button {
+    .like-button {
       background-color: #00ff88;
       color: #000;
       border: none;
@@ -72,8 +82,16 @@ include 'configdb.php';
       cursor: pointer;
     }
 
-    .film-card form button:hover {
+    .like-button:hover {
       background-color: #00cc66;
+    }
+
+    footer {
+      background-color: #111;
+      color: #00ff88;
+      text-align: center;
+      padding: 15px;
+      margin-top: auto;
     }
   </style>
 </head>
@@ -93,18 +111,42 @@ include 'configdb.php';
   ");
 
   while ($film = $query->fetch(PDO::FETCH_ASSOC)) {
+    $image_path = !empty($film['image']) ? 'images/' . htmlspecialchars($film['image']) : 'images/default.jpg';
     echo '<div class="film-card">';
-    echo '<img src="uploads/posters/' . htmlspecialchars($film['image']) . '" alt="Affiche du film">';
+    echo '<img src="' . $image_path . '" alt="Affiche du film">';
     echo '<h3>' . htmlspecialchars($film['titre']) . '</h3>';
     echo '<p>Thème : ' . htmlspecialchars($film['genre']) . '</p>';
-    echo '<form action="like_film.php" method="POST">';
-    echo '<input type="hidden" name="film_id" value="' . $film['id'] . '">';
-    echo '<button type="submit">👍 ' . $film['likes'] . '</button>';
-    echo '</form>';
+    echo '<button class="like-button" data-id="' . $film['id'] . '">👍 <span class="like-count">' . $film['likes'] . '</span></button>';
     echo '</div>';
   }
   ?>
 </div>
+
+<?php include 'includes/footer.php'; ?>
+
+<script>
+document.querySelectorAll('.like-button').forEach(button => {
+  button.addEventListener('click', function () {
+    const filmId = this.getAttribute('data-id');
+    const countSpan = this.querySelector('.like-count');
+
+    fetch("like_film.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: "film_id=" + filmId,
+      credentials: "same-origin"
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        countSpan.textContent = data.like_count;
+      }
+    });
+  });
+});
+</script>
 
 </body>
 </html>

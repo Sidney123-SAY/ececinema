@@ -1,5 +1,15 @@
 <?php
-// includes/nav.php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+include 'configdb.php';
+
+$notif_count = 0;
+if (isset($_SESSION['user_id'])) {
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM notifications WHERE user_id = ? AND vue = 0");
+    $stmt->execute([$_SESSION['user_id']]);
+    $notif_count = $stmt->fetchColumn();
+}
 ?>
 
 <style>
@@ -131,7 +141,8 @@
     </nav>
     <div class="nav-icons">
         <a href="recherche.php" class="icon">🔍</a>
-        <a href="notifications.php" class="icon">🔔<span class="badge">2</span></a>
+        <a href="notifications.php" class="icon">🔔<?php if ($notif_count > 0): ?><span class="badge"><?= $notif_count ?></span><?php endif; ?></a>
         <a href="profil.php" class="icon">👤</a>
     </div>
 </header>
+

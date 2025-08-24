@@ -31,91 +31,101 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Connexion - ECE CINÉ</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+
     <style>
         body {
             margin: 0;
             padding: 0;
             background-color: #000;
             font-family: 'Arial', sans-serif;
+            color: #00ff88;
+        }
+
+        .main-content {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            color: #0f0;
+            height: calc(100vh - 60px); /* Ajuster selon la hauteur de la nav */
         }
 
         .login-box {
             background-color: #111;
-            padding: 30px;
+            padding: 40px;
             border-radius: 10px;
-            width: 280px;
+            width: 350px;
             text-align: center;
-            box-shadow: 0 0 10px #0f0;
+            box-shadow: 0 0 15px #00ff88;
         }
 
         .login-box h2 {
-            margin-bottom: 20px;
-            font-size: 24px;
-            color: #0f0;
+            margin-bottom: 25px;
+            font-size: 26px;
+            color: #00ff88;
         }
 
         .login-box input {
             width: 100%;
-            padding: 8px;
-            margin-bottom: 15px;
+            padding: 12px;
+            margin-bottom: 20px;
             border: none;
             border-radius: 5px;
             background-color: #222;
             color: #fff;
+            font-size: 16px;
         }
 
         .login-box button {
             width: 100%;
-            padding: 10px;
-            background-color: #0f0;
+            padding: 12px;
+            background-color: #00ff88;
             color: #000;
             border: none;
             border-radius: 5px;
             font-weight: bold;
+            font-size: 16px;
             cursor: pointer;
         }
 
         .login-box .register {
-            margin-top: 15px;
-            font-size: 13px;
-            color: #0f0;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #00ff88;
         }
 
         .login-box .register a {
-            color: #0f0;
+            color: #00ff88;
             text-decoration: underline;
         }
 
         .error {
             background-color: #f00;
             color: white;
-            padding: 8px;
-            margin-bottom: 15px;
+            padding: 10px;
+            margin-bottom: 20px;
             border-radius: 5px;
-            font-size: 14px;
+            font-size: 15px;
         }
     </style>
 </head>
 <body>
-    <div class="login-box">
-        <h2>Connexion</h2>
-        <?php if (isset($error)): ?>
-            <div class="error"><?= htmlspecialchars($error) ?></div>
-        <?php endif; ?>
-        <form method="POST">
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="mot_de_passe" placeholder="Mot de passe" required>
-            <button type="submit">Se connecter</button>
-        </form>
-        <p class="register">Pas encore inscrit ? <a href="register.php">Créer un compte</a></p>
+
+    <?php include 'includes/nav.php'; ?>
+
+    <div class="main-content">
+        <div class="login-box">
+            <h2>Connexion</h2>
+            <?php if (isset($error)): ?>
+                <div class="error"><?= htmlspecialchars($error) ?></div>
+            <?php endif; ?>
+            <form method="POST">
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="mot_de_passe" placeholder="Mot de passe" required>
+                <button type="submit">Se connecter</button>
+            </form>
+            <p class="register">Pas encore inscrit ? <a href="register.php">Créer un compte</a></p>
+        </div>
     </div>
+
 </body>
 </html>
-
-
-

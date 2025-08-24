@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $stmt = $pdo->prepare("UPDATE utilisateurs SET avatar = ?, fond_ecran = ? WHERE id = ?");
     $stmt->execute([$avatar, $bg, $user_id]);
-    echo "<div class='success'>Profil mis à jour.</div>";
+    $success_message = "Profil mis à jour.";
 }
 
 $stmt = $pdo->prepare("SELECT avatar, fond_ecran FROM utilisateurs WHERE id = ?");
@@ -30,6 +30,7 @@ $user = $stmt->fetch();
 <head>
     <meta charset="UTF-8">
     <title>Mon Profil</title>
+    <link rel="stylesheet" href="assets/css/style.css">
     <style>
         body {
             margin: 0;
@@ -40,10 +41,13 @@ $user = $stmt->fetch();
             background-position: center;
             font-family: 'Arial', sans-serif;
             color: white;
+        }
+
+        main {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
         }
 
         .profile-box {
@@ -112,9 +116,18 @@ $user = $stmt->fetch();
     </style>
 </head>
 <body>
+
+<?php include 'includes/nav.php'; ?>
+
+<main>
     <div class="profile-box">
         <h2>Mon Profil</h2>
         <img src="uploads/<?= htmlspecialchars($user['avatar'] ?? 'default.png') ?>" alt="Avatar">
+        
+        <?php if (!empty($success_message)): ?>
+            <div class="success"><?= $success_message ?></div>
+        <?php endif; ?>
+
         <form method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="avatar">Nouvel avatar</label>
@@ -127,5 +140,8 @@ $user = $stmt->fetch();
             <button type="submit">Mettre à jour</button>
         </form>
     </div>
+</main>
+
+<?php include 'includes/footer.php'; ?>
 </body>
 </html>

@@ -7,6 +7,7 @@ include 'configdb.php';
 <head>
     <meta charset="UTF-8">
     <title>Recherche - ECE CINÉ</title>
+     <link rel="stylesheet" href="assets/css/style.css">
     <style>
         body {
             margin: 0;
@@ -85,6 +86,8 @@ include 'configdb.php';
     </style>
 </head>
 <body>
+
+<?php include 'includes/nav.php'; ?>
 
 <div class="search-container">
     <form method="GET">
